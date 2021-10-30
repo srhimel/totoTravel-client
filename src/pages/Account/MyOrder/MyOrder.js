@@ -1,8 +1,27 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 
 const MyOrder = () => {
+    const { user } = useAuth();
+    const [orders, setOrders] = useState([]);
+    useEffect(() => {
+        axios.get(`http://localhost:5000/my-order/${user?.email}`)
+            .then(res => setOrders(res.data));
+    }, [user]);
+    const handleDelete = id => {
+        const confirm = window.confirm("Are your sure you want to delete ?");
+        if (confirm) {
+            axios.delete(`http://localhost:5000/orders/${id}`)
+                .then(res => {
+                    const remaining = orders.filter(order => order._id !== id);
+                    setOrders(remaining);
+                })
+        }
+    }
+
     return (
         <div>
             <div className="pt-4 pb-5 bg-dark text-white text-center">
@@ -15,19 +34,21 @@ const MyOrder = () => {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                <th>Place Name</th>
+                                <th>Place</th>
+                                <th>Price</th>
                                 <th>Check in Date</th>
                                 <th>Order Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><Link to="/book/1">Otto</Link></td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td><Button variant="danger">Cancel Order</Button></td>
-                            </tr>
+                            {orders.map(order => <tr key={order._id}>
+                                <td><Link to={'/book/' + order.place_id}>{order.place}</Link></td>
+                                <td>${order.price}</td>
+                                <td>{order.checkIn}</td>
+                                <td>{order.status}</td>
+                                <td><Button variant="danger" onClick={() => handleDelete(order._id)}>Cancel Order</Button></td>
+                            </tr>)}
                         </tbody>
                     </Table>
                 </Container>

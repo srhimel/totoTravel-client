@@ -5,21 +5,41 @@ import { AiFillCar } from "react-icons/ai";
 import { BsSnow } from "react-icons/bs";
 import { MdOutlineEmojiFoodBeverage, MdPets, MdOutlineBathtub } from "react-icons/md";
 import useMap from '../../hooks/useMap';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import axios from 'axios';
+import { useForm } from "react-hook-form";
+import useAuth from '../../hooks/useAuth';
 
 const Book = () => {
+    const { user } = useAuth();
+    const { displayName, email } = user;
     const { id } = useParams();
+    const history = useHistory();
     const [place, setPlace] = useState({});
     useEffect(() => {
         axios.get(`http://localhost:5000/hotels/${id}`)
             .then(res => setPlace(res.data));
     }, [id]);
 
-    const { name, picture, lon, lat, house, location, city, country, breakfast, pet, bathtub, wifi, car, air } = place;
+    const { name, picture, lon, lat, house, location, city, country, breakfast, pet, bathtub, wifi, car, air, price, _id } = place;
+    const { register, handleSubmit, setValue } = useForm();
 
-
+    useEffect(() => {
+        setValue("price", price);
+        setValue("place_id", _id);
+        setValue("place", name);
+    });
+    const onSubmit = data => {
+        axios.post('http://localhost:5000/orders', data)
+            .then(res => {
+                if (res.data.insertedId) {
+                    alert('data posted');
+                    history.push('/my-order');
+                };
+            })
+    };
     const map = useMap(parseFloat(lat), parseFloat(lon));
+
     return (
         <section>
             <Container>
@@ -75,16 +95,21 @@ const Book = () => {
 
                         <div className="book-form border p-4">
                             <h4 className="mt-0 mb-3">Complete Booking </h4>
-                            <Form>
+                            <Form onSubmit={handleSubmit(onSubmit)}>
+                                <Form.Control type="hidden" {...register("place_id")} />
+                                <Form.Control type="hidden" {...register("price")} />
+                                <Form.Control type="hidden" {...register("place")} />
+                                <Form.Control type="hidden" {...register("status")} defaultValue="pending" />
                                 <Form.Group className="mb-3">
                                     <Form.Label>Name</Form.Label>
-                                    <Form.Control type="text" placeholder="Full Name" />
+                                    <Form.Control {...register("name")} type="text" placeholder="Full Name" defaultValue={displayName} />
+
                                 </Form.Group>
                                 <Row>
                                     <Col>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Email address</Form.Label>
-                                            <Form.Control type="email" placeholder="Enter email" />
+                                            <Form.Control {...register("email")} type="email" placeholder="Enter email" defaultValue={email} />
                                             <Form.Text className="text-muted d-none">
                                                 We'll never share your email with anyone else.
                                             </Form.Text>
@@ -93,7 +118,7 @@ const Book = () => {
                                     <Col>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Phone Number</Form.Label>
-                                            <Form.Control type="name" placeholder="Phone Number" />
+                                            <Form.Control {...register("phone")} type="name" placeholder="Phone Number" required />
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -104,19 +129,21 @@ const Book = () => {
                                     <Col xs={6}>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Check In</Form.Label>
-                                            <Form.Control type="date" placeholder="Phone Number" />
+                                            <Form.Control type="date" {...register("checkIn")} required />
                                         </Form.Group></Col>
                                     <Col xs={6}>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Check Out</Form.Label>
-                                            <Form.Control type="date" placeholder="Phone Number" />
+                                            <Form.Control type="date" {...register("checkOut")} required />
                                         </Form.Group></Col>
                                 </Row>
 
                                 <Form.Group className="mb-3">
                                     <Form.Label>Number Of People</Form.Label>
-                                    <Form.Control type="text" placeholder="Number of People" />
+                                    <Form.Control {...register("people")} type="number" placeholder="Number of People" required />
                                 </Form.Group>
+
+
                                 <Button variant="info" type="submit">
                                     Book Now
 

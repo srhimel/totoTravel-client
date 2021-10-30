@@ -1,8 +1,27 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const ManageOrder = () => {
+    const [orders, setOrders] = useState([]);
+    const [updated, setUpdated] = useState(false);
+    useEffect(() => {
+        axios.get(`http://localhost:5000/orders`)
+            .then(res => setOrders(res.data));
+    }, [updated]);
+    const handleUpdate = id => {
+        const confirm = window.confirm("Are your sure you want to accept order ?");
+        if (confirm) {
+            axios.put(`http://localhost:5000/orders/${id}`)
+                .then(res => {
+                    if (res.data.modifiedCount > 0) {
+                        alert("updated");
+                        setUpdated(true);
+                    };
+                })
+        }
+    }
     return (
         <div>
             <div className="pt-4 pb-5 bg-dark text-white text-center">
@@ -23,13 +42,13 @@ const ManageOrder = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>@mdo</td>
-                                <td><Link to="/book/1">Otto</Link></td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td><Button variant="success">Accept Order</Button></td>
-                            </tr>
+                            {orders.map(order => <tr key={order._id}>
+                                <td>{order.name}</td>
+                                <td><Link to={'/book/' + order.place_id}>{order.place}</Link></td>
+                                <td>{order.checkIn}</td>
+                                <td>{order.status}</td>
+                                <td>{order.status === 'pending' && <Button variant="success" onClick={() => handleUpdate(order._id)}>Accept Order</Button>}</td>
+                            </tr>)}
                         </tbody>
                     </Table>
                 </Container>
