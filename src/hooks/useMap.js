@@ -7,8 +7,8 @@ const useMap = (lat, lang) => {
     };
 
     const center = {
-        lat: lat,
-        lng: lang
+        lat: lat || 27,
+        lng: lang || 99
     };
     const options = {
         strokeColor: '#0DCAF0',

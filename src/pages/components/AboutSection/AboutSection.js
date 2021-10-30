@@ -14,7 +14,7 @@ const AboutSection = () => {
                             </p>
                             <h2 className="text-info">About Our ToTo Travel</h2>
                             <p>ToTo Travel is one of the largest travel agency which started since 1910 in Bangladesh. It is highly recomanded to visit our office before you want to leave for a vacation. Our travel agent will find the best place for you so that you don't have to. </p>
-                            <p div className="mb-4">Tired of searching places for your honeymoon trip. Don't worry we have some special places for you too with amazing deals and discounts.</p>
+                            <p className="mb-4">Tired of searching places for your honeymoon trip. Don't worry we have some special places for you too with amazing deals and discounts.</p>
 
                             <Button variant="info" > Search Now</Button>
 

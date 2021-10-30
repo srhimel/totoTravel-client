@@ -13,47 +13,52 @@ import ManageOrder from './pages/Account/ManageOrder/ManageOrder';
 import AddHotel from './pages/Account/AddHotel/AddHotel';
 import NotFound from './pages/NotFound/NotFound';
 import Hotels from './pages/Hotels/Hotels';
+import AuthContext from './context/AuthContext';
+import PrivateRoute from './pages/Account/PrivateRoute/PrivateRoute';
 
 function App() {
   return (
     <div>
-      <BrowserRouter>
-        <Header />
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/book/:id">
-            <Book />
-          </Route>
-          <Route path="/about-us">
-            <About />
-          </Route>
-          <Route path="/places">
-            <Hotels />
-          </Route>
-          <Route path="/contact-us">
-            <Contact />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/my-order">
-            <MyOrder />
-          </Route>
-          <Route path="/all-orders">
-            <ManageOrder />
-          </Route>
-          <Route path="/add-listing">
-            <AddHotel />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
+      <AuthContext>
 
-        </Switch>
-        <Footer />
-      </BrowserRouter>
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <PrivateRoute path="/book/:id">
+              <Book />
+            </PrivateRoute>
+            <Route path="/about-us">
+              <About />
+            </Route>
+            <Route path="/places">
+              <Hotels />
+            </Route>
+            <Route path="/contact-us">
+              <Contact />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <PrivateRoute path="/my-order">
+              <MyOrder />
+            </PrivateRoute>
+            <PrivateRoute path="/all-orders">
+              <ManageOrder />
+            </PrivateRoute>
+            <PrivateRoute path="/add-listing">
+              <AddHotel />
+            </PrivateRoute>
+            <Route path="*">
+              <NotFound />
+            </Route>
+
+          </Switch>
+          <Footer />
+        </BrowserRouter>
+      </AuthContext>
     </div>
   );
 }

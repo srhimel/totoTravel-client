@@ -1,50 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row, Button } from 'react-bootstrap';
 import { HiLocationMarker, HiWifi } from "react-icons/hi";
 import { AiFillCar } from "react-icons/ai";
 import { BsSnow } from "react-icons/bs";
 import { MdOutlineEmojiFoodBeverage, MdPets, MdOutlineBathtub } from "react-icons/md";
 import useMap from '../../hooks/useMap';
+import { useParams } from 'react-router';
+import axios from 'axios';
 
 const Book = () => {
-    const map = useMap(23.909594, 90.185309);
+    const { id } = useParams();
+    const [place, setPlace] = useState({});
+    useEffect(() => {
+        axios.get(`http://localhost:5000/hotels/${id}`)
+            .then(res => setPlace(res.data));
+    }, [id]);
+
+    const { name, picture, lon, lat, house, location, city, country, breakfast, pet, bathtub, wifi, car, air } = place;
+
+
+    const map = useMap(parseFloat(lat), parseFloat(lon));
     return (
         <section>
             <Container>
                 <Row className="g-5">
                     <Col md={7}>
+
                         <div className="book-info">
-                            <h2>Shopnotila - 1 bedroom cabin and campsite</h2>
-                            <p><HiLocationMarker /> &nbsp; Dhaka Rampur, C71, Bangladesh</p>
-                            <img src="https://i.ibb.co/cFJsC5H/saj.jpg" alt="" className="w-100" />
+                            <h2>{name} </h2>
+                            <p><HiLocationMarker /> &nbsp; {house + ' , ' + location + ' , ' + city + ' , ' + country}</p>
+                            <img src={picture} alt="" className="w-100" />
                             <div className="book-offer mt-3">
                                 <h4>What this place offers</h4>
                                 <Row>
                                     <Col>
                                         <ul className="p-0" style={{ listStyle: 'none' }}>
 
-                                            <li>
+                                            {breakfast && <li>
                                                 <MdOutlineEmojiFoodBeverage></MdOutlineEmojiFoodBeverage> Breakfast
-                                            </li>
-                                            <li>
+                                            </li>}
+                                            {pet && <li>
                                                 <MdPets></MdPets> Pets Allowed
-                                            </li>
-                                            <li>
+                                            </li>}
+                                            {bathtub && <li>
                                                 <MdOutlineBathtub></MdOutlineBathtub> Bathtub
-                                            </li>
+                                            </li>}
                                         </ul>
                                     </Col>
                                     <Col>
                                         <ul className="p-0" style={{ listStyle: 'none' }}>
-                                            <li>
+                                            {wifi && <li>
                                                 <HiWifi> </HiWifi> Wifi Facility
-                                            </li>
-                                            <li>
+                                            </li>}
+                                            {car && <li>
                                                 <AiFillCar></AiFillCar> Car Parking
-                                            </li>
-                                            <li>
+                                            </li>}
+                                            {air && <li>
                                                 <BsSnow></BsSnow> Air Conditioning
-                                            </li>
+                                            </li>}
 
                                         </ul></Col>
                                 </Row>
@@ -99,14 +112,7 @@ const Book = () => {
                                             <Form.Control type="date" placeholder="Phone Number" />
                                         </Form.Group></Col>
                                 </Row>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Room Type</Form.Label>
-                                    <Form.Select>
-                                        <option>-- Select Room Type --</option>
-                                        <option value="single">Single</option>
-                                        <option value="double">Double</option>
-                                    </Form.Select>
-                                </Form.Group>
+
                                 <Form.Group className="mb-3">
                                     <Form.Label>Number Of People</Form.Label>
                                     <Form.Control type="text" placeholder="Number of People" />

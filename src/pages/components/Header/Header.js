@@ -4,7 +4,10 @@ import logo from '../../../logo.svg';
 import { BsPersonCircle } from "react-icons/bs";
 import './Header.css'
 import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
+
 const Header = () => {
+    const { user, logOut } = useAuth();
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
@@ -18,11 +21,19 @@ const Header = () => {
                         <Nav.Link as={NavLink} to="/places">Places</Nav.Link>
                         <Nav.Link as={NavLink} to="/about-us">About Us</Nav.Link>
                         <Nav.Link as={NavLink} to="/contact-us">Contact Us</Nav.Link>
-                        <NavDropdown title={<span><BsPersonCircle /> &nbsp; Account </span>} align="end" id="account-drop">
+                        <NavDropdown title={<span><BsPersonCircle /> &nbsp; {user?.email ? user?.email : 'Account'} </span>} align="end" id="account-drop">
+                            {user?.email ?
+                                <>
+                                    <NavDropdown.Item as={NavLink} to="/my-order">My Order</NavDropdown.Item>
+                                    <NavDropdown.Item as={NavLink} to="/all-orders">All Order</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={logOut}>Log Out</NavDropdown.Item>
+                                </>
+                                :
+                                <NavDropdown.Item as={NavLink} to="/login">Login</NavDropdown.Item>
+                            }
 
-                            <NavDropdown.Item as={NavLink} to="/login">Login</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/my-order">My Order</NavDropdown.Item>
-                            <NavDropdown.Item as={NavLink} to="/all-orders">All Order</NavDropdown.Item>
+
+
 
                             <NavDropdown.Divider />
                             <NavDropdown.Item as={NavLink} to="/add-listing">Add Listing</NavDropdown.Item>
