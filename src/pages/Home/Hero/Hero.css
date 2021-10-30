@@ -1,0 +1,7 @@
+.hero{
+    background: linear-gradient(#212529, rgba(0,0,0,.7)), url('https://i.ibb.co/HnBHwHw/bg.jpg');
+    background-size: cover;
+    padding: 150px 0 200px 0;
+    background-position: bottom;
+    text-align: center;
+}
