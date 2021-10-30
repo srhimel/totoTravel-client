@@ -17,7 +17,7 @@ const Book = () => {
     const history = useHistory();
     const [place, setPlace] = useState({});
     useEffect(() => {
-        axios.get(`http://localhost:5000/hotels/${id}`)
+        axios.get(`https://tototravel.herokuapp.com/hotels/${id}`)
             .then(res => setPlace(res.data));
     }, [id]);
 
@@ -30,7 +30,7 @@ const Book = () => {
         setValue("place", name);
     });
     const onSubmit = data => {
-        axios.post('http://localhost:5000/orders', data)
+        axios.post('https://tototravel.herokuapp.com/orders', data)
             .then(res => {
                 if (res.data.insertedId) {
                     alert('data posted');

@@ -8,13 +8,13 @@ const MyOrder = () => {
     const { user } = useAuth();
     const [orders, setOrders] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:5000/my-order/${user?.email}`)
+        axios.get(`https://tototravel.herokuapp.com/my-order/${user?.email}`)
             .then(res => setOrders(res.data));
     }, [user]);
     const handleDelete = id => {
         const confirm = window.confirm("Are your sure you want to delete ?");
         if (confirm) {
-            axios.delete(`http://localhost:5000/orders/${id}`)
+            axios.delete(`https://tototravel.herokuapp.com/orders/${id}`)
                 .then(res => {
                     const remaining = orders.filter(order => order._id !== id);
                     setOrders(remaining);

@@ -7,13 +7,13 @@ const ManageOrder = () => {
     const [orders, setOrders] = useState([]);
     const [updated, setUpdated] = useState(false);
     useEffect(() => {
-        axios.get(`http://localhost:5000/orders`)
+        axios.get(`https://tototravel.herokuapp.com/orders`)
             .then(res => setOrders(res.data));
     }, [updated]);
     const handleUpdate = id => {
         const confirm = window.confirm("Are your sure you want to accept order ?");
         if (confirm) {
-            axios.put(`http://localhost:5000/orders/${id}`)
+            axios.put(`https://tototravel.herokuapp.com/orders/${id}`)
                 .then(res => {
                     if (res.data.modifiedCount > 0) {
                         alert("updated");

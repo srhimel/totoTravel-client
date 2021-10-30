@@ -6,7 +6,7 @@ import axios from 'axios';
 const AddHotel = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.post('http://localhost:5000/hotels', data)
+        axios.post('https://tototravel.herokuapp.com/hotels', data)
             .then(res => {
                 if (res.data.insertedId) {
                     alert('data posted');

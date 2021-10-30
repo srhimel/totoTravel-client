@@ -6,7 +6,7 @@ import Place from './Place/Place';
 const PlacesSection = () => {
     const [places, setPlaces] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:5000/hotels')
+        axios.get('https://tototravel.herokuapp.com/hotels')
             .then(result => setPlaces(result.data));
     }, [])
     return (
