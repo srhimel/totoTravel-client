@@ -13,3 +13,7 @@ Live link:  [Hosted on Firebase, click here](https://toitoi-guru.web.app/).
  - MongoDB and Node
  - Google Map Location
  - User authentication system 
+
+ ## Live View 
+
+ ![live view](https://i.ibb.co/Ln5Wh5C/screencapture-toitoi-guru-web-app-2021-10-31-04-01-17.png)
