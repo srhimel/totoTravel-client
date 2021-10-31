@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Col, Container, Row, Button, Carousel } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const AboutSection = () => {
     return (
@@ -16,7 +17,7 @@ const AboutSection = () => {
                             <p>ToTo Travel is one of the largest travel agency which started since 1910 in Bangladesh. It is highly recomanded to visit our office before you want to leave for a vacation. Our travel agent will find the best place for you so that you don't have to. </p>
                             <p className="mb-4">Tired of searching places for your honeymoon trip. Don't worry we have some special places for you too with amazing deals and discounts.</p>
 
-                            <Button variant="info" > Search Now</Button>
+                            <Button variant="info" as={Link} to="/places"> Search Now</Button>
 
                         </div>
                     </Col>

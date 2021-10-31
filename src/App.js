@@ -17,6 +17,7 @@ import AuthContext from './context/AuthContext';
 import PrivateRoute from './pages/Account/PrivateRoute/PrivateRoute';
 
 function App() {
+
   return (
     <div>
       <AuthContext>

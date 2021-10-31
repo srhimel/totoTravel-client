@@ -38,6 +38,9 @@ const Book = () => {
                 };
             })
     };
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     const map = useMap(parseFloat(lat), parseFloat(lon));
 
     return (
@@ -48,7 +51,7 @@ const Book = () => {
 
                         <div className="book-info">
                             <h2>{name} </h2>
-                            <p><HiLocationMarker /> &nbsp; {house + ' , ' + location + ' , ' + city + ' , ' + country}</p>
+                            {house?.length > 0 && <p><HiLocationMarker /> &nbsp; {house + ' , ' + location + ' , ' + city + ' , ' + country}</p>}
                             <img src={picture} alt="" className="w-100" />
                             <div className="book-offer mt-3">
                                 <h4>What this place offers</h4>
